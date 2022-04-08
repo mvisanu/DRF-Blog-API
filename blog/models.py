@@ -1,7 +1,6 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)

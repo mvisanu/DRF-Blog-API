@@ -48,6 +48,14 @@ class PostListDetailfilter(generics.ListAPIView):
     # '^' Starts-with search.
     # '=' Exact matches.
     search_fields = ['^slug']
+    
+class PostSearch(generics.ListAPIView):
+    #permission_classes = [AllowAny]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['^slug']
+
 
 # Post Admin
 

@@ -8,23 +8,9 @@ from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 # Display Posts
 
-class AdminPostUpload(APIView):
-   # permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
-    
-    def post(self, request, format=None):
-        print(request.data)
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            bg = serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-        
-
 
 class PostList(generics.ListAPIView):
-
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
@@ -48,14 +34,6 @@ class PostListDetailfilter(generics.ListAPIView):
     # '^' Starts-with search.
     # '=' Exact matches.
     search_fields = ['^slug']
-    
-class PostSearch(generics.ListAPIView):
-    #permission_classes = [AllowAny]
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['^slug']
-
 
 # Post Admin
 
@@ -66,7 +44,7 @@ class PostSearch(generics.ListAPIView):
 
 
 class CreatePost(APIView):
-   # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, format=None):
@@ -80,13 +58,13 @@ class CreatePost(APIView):
 
 
 class AdminPostDetail(generics.RetrieveAPIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
 class EditPost(generics.UpdateAPIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
